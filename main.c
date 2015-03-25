@@ -1,20 +1,37 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <limits.h>
+#include <stdint.h>
+#include "sort.h"
+#include "insert_sort.h"
 
-void print_result(S_TYPE *yum, S_TYPE n)
+#define true 1
+#define false 0
+#define bool uint16_t
+
+extern struct sort_ops *g_sort_ops;
+static S_TYPE g_count;
+static S_TYPE *g_yum;
+
+#define SORT_PRINTER 0
+
+void print_element(char *desc, S_TYPE *yum, S_TYPE n)
 {
+#if SORT_PRINTER
+	printf("%s\n", desc);
 	S_TYPE i;
 	for(i = 0; i < n; i++){
-		if(i != 0 && i % 16 == 0)
+		if(i == 0 || i % 16 != 0)
 			printf("%u ", yum[i]);
-		else printf("\n");
+		else printf("\n%u ", yum[i]);
 	}
+	printf("\n");
+#endif
 }
-int main(int argc, char *argv[])
+
+void usage()
 {
-	S_TYPE n;
 	S_TYPE i;
-	S_TYPE *yum;
 	bool get_number = false;
 	
 	printf("Hello! Welcome to Kevin's sorting world!\n");
@@ -22,20 +39,43 @@ int main(int argc, char *argv[])
 
 	while(!get_number){
 		printf("input the count of number you want to sort:");
-		if(!scanf("%u", &n)){
+		if(!scanf("%u", &g_count)){
 			printf("input error,please input number!\n");
 			continue;
 		}
-		printf("starting producing %u numbers now,waitting...\n", n);
+		printf("starting producing %u numbers now,waitting...\n", g_count);
 
-		yum = malloc(n * sizeof(S_TYPE));
-		if(yum == NULL){
-			printf("no memory for %u numbers", n);
+		g_yum = malloc(g_count * sizeof(S_TYPE));
+		if(g_yum == NULL){
+			printf("no memory for %u numbers", g_count);
 			continue;
 		}else get_number = true;
 	}
-	for(i = 0; i < n; i++){
-		yum[i] = rand() % MAX;
+
+	for(i = 0; i < g_count; i++){
+		g_yum[i] = rand() % MAX;
 	}
-	insert_sort(yum, n, print_result);
+	print_element("before sorting:", g_yum, g_count);
+}
+int main(int argc, char *argv[])
+{
+	
+	usage();
+	
+	if(g_yum == NULL || g_count <= 0)
+		return -1;
+	
+	g_sort_ops = malloc(sizeof(*g_sort_ops));
+	if(!g_sort_ops){
+		printf("no memory for sort_ops!\n");
+		return -1;
+	}
+	
+	g_sort_ops->init = init;
+	g_sort_ops->init(insert_sort_action, print_element);
+	g_sort_ops->action(g_yum, g_count);
+
+	free(g_yum);
+
+	return 0;
 }
