@@ -6,6 +6,8 @@ extern "C"{
 #endif
 
 #include <stdio.h>
+#include <stdlib.h>
+
 
 typedef unsigned int S_TYPE;
 #define MAX UINT_MAX
@@ -24,7 +26,7 @@ static void swap(S_TYPE *a, S_TYPE*b)
 	*b = tmp;
 }
 
-extern void init(void (*sort)(S_TYPE *, S_TYPE), void (*print_element)(char *desc, S_TYPE *, S_TYPE));
+extern void global_task_init(void (*sort)(S_TYPE *, S_TYPE), void (*print_element)(char *desc, S_TYPE *, S_TYPE));
 extern void insert_sort(S_TYPE *, S_TYPE , void (*print_result)(char *, S_TYPE *, S_TYPE ));
 
 

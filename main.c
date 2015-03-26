@@ -1,9 +1,9 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <limits.h>
 #include <stdint.h>
 #include "sort.h"
 #include "insert_sort.h"
+#include "merge_sort.h"
 
 #define true 1
 #define false 0
@@ -65,14 +65,8 @@ int main(int argc, char *argv[])
 	if(g_yum == NULL || g_count <= 0)
 		return -1;
 	
-	g_sort_ops = malloc(sizeof(*g_sort_ops));
-	if(!g_sort_ops){
-		printf("no memory for sort_ops!\n");
-		return -1;
-	}
+	global_task_init(merge_sort, print_element);
 	
-	g_sort_ops->init = init;
-	g_sort_ops->init(insert_sort_action, print_element);
 	g_sort_ops->action(g_yum, g_count);
 
 	free(g_yum);
