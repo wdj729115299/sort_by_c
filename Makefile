@@ -1,5 +1,5 @@
 CFLAGS+= -DTEST -g
-TARGET = merge_sort
+TARGET = sort
 SOURCES = ${wildcard *.c}
 OBJS = $(SOURCES:.c=.o) 
 
