@@ -10,7 +10,7 @@ extern "C"{
 
 
 typedef unsigned int S_TYPE;
-#define MAX UINT_MAX
+#define MAX 1000000
 
 typedef struct sort_ops{
 	void (*sort)(S_TYPE *, S_TYPE);
