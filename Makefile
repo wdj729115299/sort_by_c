@@ -1,14 +1,13 @@
-CFLAGS+= -DTEST -g
-TARGET = sort
-SOURCES = ${wildcard *.c}
-OBJS = $(SOURCES:.c=.o) 
-
-all:$(TARGET)
-
-$(TARGET): $(OBJS)
-	$(CC) $(OBJS) -o $(TARGET)
-.c.o:
-	$(CC) $(CFLAGS) -Wall -c $<
-
+CC = gcc
+EXEC = sort
+OBJS = sort.o
+CFLAGS = -Wall
+LDFLAGS = -lm
+#default:$(EXEC)
+%.o: %.c
+	$(CC) -c $(CFLAGS) $< -o $@
+#all:$(EXEC)
+$(EXEC):$(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $@ $(LDFLAGS)
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f $(EXEC) $(OBJS)

@@ -6,6 +6,7 @@
 #include "merge_sort.h"
 #include "rand_quick_sort.h"
 #include "counting_sort.h"
+#include "radix_sort.h"
 
 #define true 1
 #define false 0
@@ -67,10 +68,11 @@ int main(int argc, char *argv[])
 	if(g_yum == NULL || g_count <= 0)
 		return -1;
 	
-	//global_task_init(rand_quick_sort, print_element);
+	global_task_init(radix_sort, print_element);
 	
-	//g_sort_ops->action(g_yum, g_count);
-	counting_sort(g_yum, g_count, 0, MAX - 1);
+	g_sort_ops->action(g_yum, g_count);
+	//counting_sort(g_yum, g_count, 0, MAX - 1);
+	
 
 	free(g_yum);
 
